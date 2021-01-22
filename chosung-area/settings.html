@@ -7,6 +7,7 @@
         <link rel="icon" href="../jbgd-logo-white-small.png" type="image/x-icon">
         <link rel="preconnect" href="https://fonts.gstatic.com">
         <link href="https://fonts.googleapis.com/css2?family=Gamja+Flower&display=swap" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css2?family=Black+Han+Sans&display=swap" rel="stylesheet">
         <link rel="stylesheet" href="../font/sd-misaeng.css" type="text/css" charset="utf-8">
         <style>
         body{
@@ -19,20 +20,25 @@
             width: 150px;
             transition: width 0.5s, right 0.5s, bottom 0.5s;
         }
-        h1{
-            font-family: 'sd-misaeng', 'Gamja Flower', cursive; 
-            font-size: 70px;
-            text-shadow: 3px 3px 3px gray;
-            transition: font-size 0.5s;
-        }
-        h1:hover{
-            font-size: 75px;
-            top: 2.5;
-        }
         #logo:hover{
             width: 160px;
             right: 5px;
             bottom: 5px;
+        }
+        #container{
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 90vh;
+        }
+        h1{
+            font-family: 'sd-misaeng', 'Gamja Flower', cursive; 
+            font-size: 70px;
+            transition: text-shadow 0.25s;
+        }
+        h1:hover{
+            text-shadow: 3px 3px 1px gray;
         }
         div{
             font-size: 32px;
@@ -42,11 +48,13 @@
             display: inline-flex;
             justify-content: center;
             padding: 30px;
+            margin: 3vh;
             background-color:#48CC66;
             font-family: 'Gamja Flower', cursive; 
+            transition: box-shadow 0.25s;
         }
-        #text-wrap{
-            display: flex;
+        #choose:hover{
+            box-shadow: 8px 8px 0px black;
         }
         input[type='number']{
             text-align: center;
@@ -59,22 +67,41 @@
         input[type=number]::-webkit-inner-spin-button{  
           opacity: 1;
         }
+        button{
+            margin: 3vh;
+            padding: 30px;
+            font-size: 32px;
+            font-family: "Black Han Sans";
+            background-color: gold;
+            outline: 0;
+            border-style: none;
+            transition: box-shadow 0.25s;
+        }
+        button:hover{
+            box-shadow: 5px 5px 0px black;
+        }
+        button:active{
+            background-color: goldenrod;
+        }
         </style>
     </head>
     <body>
-        <h1>초성 땅따먹기</h1>
-        <span id='choose'>
-            <div id='text-wrap'>
+        <div id='container'>
+            <h1>초성 땅따먹기</h1>
+            <span id='choose'>
                 <div class='text'>가로세로&nbsp;</div>
                 <input type="number" name="size" id="board-size" min="8" max="12" value="10">
                 <div class='text'>칸&nbsp;</div>
                 <input type="number" name="player" id="player-count" min="2" max="4" value="4">
                 <div class='text'>명</div>
-            </div>
-        </span>
+            </span>
+            <br>
+            <button>
+                PLAY!
+            </button>
+        </div>
         <a href="https://comic.naver.com/bestChallenge/detail.nhn?titleId=734597&no=55" target='_blank' title='자작 보드게임 동아리'>
             <img src="../jbgd-logo-white.png" alt="jbgd logo" id='logo'>
         </a>
-
     </body>
 </html>
