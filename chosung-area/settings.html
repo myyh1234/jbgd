@@ -42,26 +42,33 @@
             display: inline-flex;
             justify-content: center;
             padding: 30px;
-            background-color: yellowgreen;
+            background-color:#48CC66;
             font-family: 'Gamja Flower', cursive; 
         }
         #text-wrap{
             display: flex;
         }
-        .number{
+        input[type='number']{
+            text-align: center;
             color: white;
+            font-family: 'Gamja Flower', cursive;
+            font-size: 32px;
+            background-color: inherit;
+            border-style: none;
+        }
+        input[type=number]::-webkit-inner-spin-button{  
+          opacity: 1;
         }
         </style>
     </head>
     <body>
         <h1>초성 땅따먹기</h1>
         <span id='choose'>
-            
             <div id='text-wrap'>
                 <div class='text'>가로세로&nbsp;</div>
-                <div class='number'>열&nbsp;</div>
+                <input type="number" name="size" id="board-size" min="8" max="12" value="10">
                 <div class='text'>칸&nbsp;</div>
-                <div class='number'>네&nbsp;</div>
+                <input type="number" name="player" id="player-count" min="2" max="4" value="4">
                 <div class='text'>명</div>
             </div>
         </span>
