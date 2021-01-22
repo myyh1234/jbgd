@@ -10,7 +10,6 @@
         <link rel="stylesheet" href="../font/sd-misaeng.css" type="text/css" charset="utf-8">
         <style>
         body{
-            background-color: moccasin/*rgb(57, 205, 216)*/;
             text-align: center;
         }
         #logo{
@@ -28,16 +27,44 @@
         }
         h1:hover{
             font-size: 75px;
+            top: 2.5;
         }
         #logo:hover{
             width: 160px;
             right: 5px;
             bottom: 5px;
         }
+        div{
+            font-size: 32px;
+            /* padding: 10px; */
+        }
+        #choose{
+            display: inline-flex;
+            justify-content: center;
+            padding: 30px;
+            background-color: yellowgreen;
+            font-family: 'Gamja Flower', cursive; 
+        }
+        #text-wrap{
+            display: flex;
+        }
+        .number{
+            color: white;
+        }
         </style>
     </head>
     <body>
         <h1>초성 땅따먹기</h1>
+        <span id='choose'>
+            
+            <div id='text-wrap'>
+                <div class='text'>가로세로&nbsp;</div>
+                <div class='number'>열&nbsp;</div>
+                <div class='text'>칸&nbsp;</div>
+                <div class='number'>네&nbsp;</div>
+                <div class='text'>명</div>
+            </div>
+        </span>
         <a href="https://comic.naver.com/bestChallenge/detail.nhn?titleId=734597&no=55" target='_blank' title='자작 보드게임 동아리'>
             <img src="../jbgd-logo-white.png" alt="jbgd logo" id='logo'>
         </a>
