@@ -11,9 +11,44 @@
     <link rel="stylesheet" href="../font/sd-misaeng.css" type="text/css" charset="utf-8">
     <link rel="stylesheet" href="default.css">
     <script src="main.js"></script>
+    <style>
+        h1{
+            margin: 5vh;
+        }
+        #board{
+            display: inline-flex;
+            flex-direction: column;
+            border: 1px solid black;
+            box-shadow: 4px 4px 0px black;
+            z-index: 1;
+        }
+
+        #board *{
+            z-index: inherit;
+        }
+
+        .row{
+            display: flex;
+            flex-direction: row;
+            border: none;
+        }
+        .cell{
+            box-sizing: border-box;
+            border: 1px solid black;
+            background-color: white;
+            user-select: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+    </style>
 </head>
-<body onload="parse()">
+<body onload="parse(); build_board(document.getElementById('board'));">
     <h1>초성 땅따먹기</h1>
+    <div id='board'>
+
+    </div>
+
     <a href="https://comic.naver.com/bestChallenge/detail.nhn?titleId=734597&no=55" target='_blank' title='자작 보드게임 동아리'>
         <img src="../jbgd-logo-white.png" alt="jbgd logo" id='logo'>
     </a>
