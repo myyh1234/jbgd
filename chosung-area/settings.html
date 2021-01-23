@@ -88,17 +88,19 @@
     <body>
         <div id='container'>
             <h1>초성 땅따먹기</h1>
-            <span id='choose'>
-                <div class='text'>가로세로&nbsp;</div>
-                <input type="number" name="size" id="board-size" min="8" max="12" value="10">
-                <div class='text'>칸&nbsp;</div>
-                <input type="number" name="player" id="player-count" min="2" max="4" value="4">
-                <div class='text'>명</div>
-            </span>
-            <br>
-            <button>
-                PLAY!
-            </button>
+            <form action="main.html" method="get">
+                <span id='choose'>
+                    <div class='text'>가로세로&nbsp;</div>
+                    <input type="number" name="size" id="board-size" min="8" max="12" value="10">
+                    <div class='text'>칸&nbsp;</div>
+                    <input type="number" name="player" id="player-count" min="2" max="4" value="4">
+                    <div class='text'>명</div>
+                </span>
+                <br>
+                <button type="submit">
+                    PLAY!
+                </button>
+            </form>
         </div>
         <a href="https://comic.naver.com/bestChallenge/detail.nhn?titleId=734597&no=55" target='_blank' title='자작 보드게임 동아리'>
             <img src="../jbgd-logo-white.png" alt="jbgd logo" id='logo'>
