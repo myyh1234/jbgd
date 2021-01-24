@@ -3,28 +3,29 @@ var chosung = ['ㄱ', 'ㄴ', 'ㄷ', 'ㄹ', 'ㅁ', 'ㅂ', 'ㅅ', 'ㅇ', 'ㅈ', '�
 var turn = 0 // 0 1 2 3
 var area_color = ['#FF6A6A', '#4D91FF', '#FFCD04', '#75E62B']
 var tmp_color = ['#FFA8A8', '#85CFFC', '#FFD949', '#93FF5E']
-var start_x = -1, start_y = -1;
+var start_x = -1, start_y = -1; // -1: 
 var chosen = [] // (x y) stack
 function random_pick(arr){
     var idx = Math.floor(Math.random() * arr.length);
     return arr[idx];
 }
 
-function hover_(){
+function hover_(e){
+    console.log('hover', start_x);
     var now_x = parseInt(this.id.split('-')[1]);
     var now_y = parseInt(this.id.split('-')[0]);
-    if (!chosen.length)
+    if (start_x == -1)
         this.style.backgroundColor = tmp_color[turn];
-    else {
+    else if (start_x >= 0){
         var diff_x = Math.abs(now_x - start_x);
         var diff_y = Math.abs(now_y - start_y);
         var dir;
+        console.log(chosen);
         while (chosen.length > 1) {
             var tmp = chosen[chosen.length - 1];
             document.getElementById(tmp[1] + '-' + tmp[0]).style.backgroundColor = 'white';
             chosen.pop();
         }
-        console.log(diff_x, diff_y);
         if (diff_x < diff_y){
             if (now_y > start_y)
                 dir = 1;
@@ -49,13 +50,13 @@ function hover_(){
 }
 
 function outout(){
+    // console.log('mouseout');
     if (start_x == -1)
         this.style.backgroundColor = 'white';
-    // start_x = -1;
-    // start_y = -1;
 }
 
 function choose_start(){
+    console.log('mousedown', this.id);
     while (chosen.length){
         var tmp_x = chosen[chosen.length - 1][0]
         var tmp_y = chosen[chosen.length - 1][1];
@@ -69,11 +70,13 @@ function choose_start(){
 }
 
 function select(){
-    console.log('헤헤');
+    console.log('mouseup', this.id)
     if (start_x == -1){
         start_x = parseInt(this.id.split('-')[1]);
         start_y = parseInt(this.id.split('-')[0]);
     }
+    start_x = -2;
+    start_y = -2;
 }
 
 function parse(){
@@ -88,8 +91,6 @@ function parse(){
         player_cnt = 2;
     else if (player_cnt > 4)
         player_cnt = 4;
-    
-    console.log(board_size, player_cnt);
 }
 
 
@@ -115,4 +116,8 @@ function build_board(parent){
         }
 
     }
+}
+
+document.oncontextmenu = function(){
+    return false;
 }
