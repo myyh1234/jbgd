@@ -1,14 +1,29 @@
 var board_size, player_cnt;
-var chosung = ['ㄱ', 'ㄴ', 'ㄷ', 'ㄹ', 'ㅁ', 'ㅂ', 'ㅅ', 'ㅇ', 'ㅈ', 'ㅊ', 'ㅋ', 'ㅌ', 'ㅍ', 'ㅎ'];
+var chosung = ['ㄱ', 'ㄴ', 'ㄷ', 'ㄹ', 'ㅁ', 'ㅂ', 'ㅅ', 'ㅇ', 'ㅈ', 'ㅊ', 'ㅋ', 'ㅌ', 'ㅍ', 'ㅎ', ' '];
+var chosung_idx_info = [0, 14, 1, 2, 14, 3, 4, 5, 14, 6, 14, 7, 8, 14, 9, 10, 11, 12, 13];
+var hangul_start = '가'.charCodeAt(0), hangul_end = '힣'.charCodeAt(0);
 var turn = 0 // 0 1 2 3
-var area_color = ['#FF6A6A', '#4D91FF', '#FFCD04', '#75E62B']
-var tmp_color = ['#FFA8A8', '#85CFFC', '#FFD949', '#93FF5E']
+// var area_color = ['#FF6A6A', '#4D91FF', '#FFCD04', '#75E62B']
+// var tmp_color = ['#FFA8A8', '#85CFFC', '#FFD949', '#93FF5E']
+var user = [
+    {area_color: '#FF6A6A', tmp_color: '#FFA8A8', point: 0},
+    {area_color: '#4D91FF', tmp_color: '#85CFFC', point: 0},
+    {area_color: '#FFCD04', tmp_color: '#FFD949', point: 0},
+    {area_color: '#75E62B', tmp_color: '#93FF5E', point: 0}
+]
 var start_x = -1, start_y = -1; // -1: 선택안됨, -2: 선택완료 
 var chosen = []; // (x y) stack
 var board_state = [];
-var now_str = '';
+
+function same_chosung(now_chosung, char){
+    var charcode = char.charCodeAt(0);
+    if (charcode < hangul_start || hangul_end < charcode)
+        return false;
+    return (chosung[chosung_idx_info[Math.floor((charcode - hangul_start) / (21 * 28))]] == now_chosung);
+}
+
 function random_pick(arr){
-    var idx = Math.floor(Math.random() * arr.length);
+    var idx = Math.floor(Math.random() * (arr.length - 1));
     return arr[idx];
 }
 
@@ -16,7 +31,7 @@ function hover_(e){
     var now_x = parseInt(this.id.split('-')[1]);
     var now_y = parseInt(this.id.split('-')[0]);
     if (start_x == -1)
-        this.style.backgroundColor = tmp_color[turn];
+        this.style.backgroundColor = user[turn].tmp_color;
     else if (start_x >= 0){
         var diff_x = Math.abs(now_x - start_x);
         var diff_y = Math.abs(now_y - start_y);
@@ -33,7 +48,7 @@ function hover_(e){
                 dir = -1;
             for (var i = start_y + dir; i != now_y + dir; i += dir){
                 chosen.push([start_x, i]);
-                document.getElementById(i + '-' + start_x).style.backgroundColor = tmp_color[turn];
+                document.getElementById(i + '-' + start_x).style.backgroundColor = user[turn].tmp_color;
             }
         }
         else {
@@ -43,7 +58,7 @@ function hover_(e){
                 dir = -1;
             for (var i = start_x + dir; i != now_x + dir; i += dir){
                 chosen.push([i, start_y]);
-                document.getElementById(start_y + '-' + i).style.backgroundColor = tmp_color[turn];
+                document.getElementById(start_y + '-' + i).style.backgroundColor = user[turn].tmp_color;
             }
         }
     } 
@@ -62,7 +77,7 @@ function choose_start(){
         document.getElementById(tmp_y + '-' + tmp_x).style.backgroundColor = 'white';
         chosen.pop();
     }
-    this.style.backgroundColor = tmp_color[turn];
+    this.style.backgroundColor = user[turn].tmp_color;
     start_x = parseInt(this.id.split('-')[1]);
     start_y = parseInt(this.id.split('-')[0]);
     chosen.push([start_x, start_y]);
@@ -111,8 +126,6 @@ function parse(){
         player_cnt = 4;
 }
 
-
-
 function build_board(parent){
     // parent.onmouseenter = function(e){
     //     console.log(e.button);
@@ -149,6 +162,38 @@ function build_board(parent){
             newcell.onmouseup = select;
             now.appendChild(newcell);
         }
+    }
+}
+
+function check_chosung(space_word){
+    var now_chosung = '';
+    var word = space_word.replaceAll(' ', '');
+    console.log(word);
+    for (var i = 0; i < chosen.length; i++)
+        now_chosung += board_state[chosen[i][1]][chosen[i][0]];
+    if (word.length == now_chosung.length){
+        var res1 = true, res2 = true;
+        for (var i = 0; i < now_chosung.length; i++){
+            res1 &= same_chosung(now_chosung[i], word[i]);
+            res2 &= same_chosung(now_chosung[now_chosung.length - i - 1], word[i]);
+        }
+        return (res1 || res2);
+    }
+    else
+        return false;
+}
+
+function got_word(){
+    var textbox = document.getElementById('textbox')
+    var word = textbox.value;
+    textbox.value = '';
+    var chk = check_chosung(word);
+    if (chk){
+        chk |= check_word(word);
+    }
+    else{
+        console.log(false);
+        // fail
     }
 }
 

@@ -11,6 +11,7 @@
     <link rel="stylesheet" href="../font/sd-misaeng.css" type="text/css" charset="utf-8">
     <link rel="stylesheet" href="default.css">
     <script src="main.js"></script>
+    <script src="check_web.js"></script>
     <style>
         h1{
             margin: 2vh;
@@ -98,8 +99,8 @@
 <body onload="parse(); build_board(document.getElementById('board'));">
     <h1>초성 땅따먹기</h1>
     <div id='word_form' class='disable'>
-        <input type="text" name="word" id="textbox" disabled>
-        <button id='word_submit'></button>
+        <input type="text" name="word" id="textbox" onkeypress="if (event.keyCode == 13) got_word()" disabled>
+        <button id='word_submit' onclick="got_word()"></button>
     </div>
     <div id='board'>
 
