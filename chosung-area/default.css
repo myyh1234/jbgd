@@ -21,6 +21,7 @@ h1 {
     font-family: 'sd-misaeng', 'Gamja Flower', cursive;
     font-size: 70px;
     transition: text-shadow 0.25s;
+    user-select: none;
 }
 
 h1:hover {
