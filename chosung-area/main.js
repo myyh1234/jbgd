@@ -6,10 +6,10 @@ var turn = 0 // 0 1 2 3
 // var area_color = ['#FF6A6A', '#4D91FF', '#FFCD04', '#75E62B']
 // var tmp_color = ['#FFA8A8', '#85CFFC', '#FFD949', '#93FF5E']
 var user = [
-    {area_color: '#FF6A6A', tmp_color: '#FFA8A8', point: 0},
-    {area_color: '#4D91FF', tmp_color: '#85CFFC', point: 0},
-    {area_color: '#FFCA18', tmp_color: '#F8F10C', point: 0},
-    {area_color: '#48D618', tmp_color: '#8FF558', point: 0}
+    {area_color: '#FF6A6A', tmp_color: '#FFA8A8', point: 0, user_object: document.createElement('div')},
+    {area_color: '#4D91FF', tmp_color: '#85CFFC', point: 0, user_object: document.createElement('div')},
+    {area_color: '#FFCA18', tmp_color: '#F8F10C', point: 0, user_object: document.createElement('div')},
+    {area_color: '#48D618', tmp_color: '#8FF558', point: 0, user_object: document.createElement('div')}
 ]
 var start_x = -1, start_y = -1; // -1: 선택안됨, -2: 선택완료 
 var chosen = []; // (x y) stack
@@ -148,6 +148,14 @@ function parse(){
 }
 
 function build_board(parent){
+    var user_area = document.getElementById('users');
+    for (var i = 0; i < player_cnt; i++){
+        user[i].user_object.style.backgroundColor = user[i].tmp_color;
+        user[i].user_object.style.width = '350px';
+        user[i].user_object.style.height = '100px';
+        console.log(user[i].user_object);
+        user_area.appendChild(user[i].user_object);
+    }
     for (var i = 0; i < board_size; i++){
         var now = document.createElement('div');
         now.id = 'row ' + i;
@@ -213,6 +221,7 @@ function got_word(){
     }
     else{
         console.log(false);
+        textbox.focus();
         // fail
     }
 }

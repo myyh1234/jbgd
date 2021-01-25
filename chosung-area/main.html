@@ -94,6 +94,15 @@
         .enable #word_submit:active{
             background-color: goldenrod;
         }
+        #users{
+            display: inline-flex;
+            flex-direction: column;
+            padding: 20px;
+            box-sizing: border-box;
+            
+            height: 450px;
+            justify-content: space-between;
+        }
     </style>
 </head>
 <body onload="parse(); build_board(document.getElementById('board'));">
@@ -102,8 +111,11 @@
         <input type="text" name="word" id="textbox" onkeypress="if (event.keyCode == 13) got_word()" disabled>
         <button id='word_submit' onclick="got_word()"></button>
     </div>
+    <div id='users'>
+    
+    </div>
     <div id='board'>
-
+    
     </div>
 
     <a href="https://comic.naver.com/bestChallenge/detail.nhn?titleId=734597&no=55" target='_blank' title='자작 보드게임 동아리'>
