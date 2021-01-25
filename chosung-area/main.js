@@ -13,7 +13,7 @@ var user = [
 ]
 var start_x = -1, start_y = -1; // -1: 선택안됨, -2: 선택완료 
 var chosen = []; // (x y) stack
-var board_state = [];
+var board_char = [], board_state = []; // 0 ~ 3: selected, 4: empty
 
 function same_chosung(now_chosung, char){
     var charcode = char.charCodeAt(0);
@@ -30,15 +30,20 @@ function random_pick(arr){
 function hover_(e){
     var now_x = parseInt(this.id.split('-')[1]);
     var now_y = parseInt(this.id.split('-')[0]);
-    if (start_x == -1)
-        this.style.backgroundColor = user[turn].tmp_color;
+    if (start_x == -1){
+        if (board_state[now_y][now_x] == 4)
+            this.style.backgroundColor = user[turn].tmp_color;
+    }
     else if (start_x >= 0){
         var diff_x = Math.abs(now_x - start_x);
         var diff_y = Math.abs(now_y - start_y);
         var dir;
         while (chosen.length > 1) {
             var tmp = chosen[chosen.length - 1];
-            document.getElementById(tmp[1] + '-' + tmp[0]).style.backgroundColor = 'white';
+            if (board_state[tmp[1]][tmp[0]] == 4)
+                document.getElementById(tmp[1] + '-' + tmp[0]).style.backgroundColor = 'white';
+            else
+                document.getElementById(tmp[1] + '-' + tmp[0]).style.backgroundColor = user[board_state[tmp[1]][tmp[0]]].area_color;
             chosen.pop();
         }
         if (diff_x < diff_y){
@@ -47,6 +52,8 @@ function hover_(e){
             else
                 dir = -1;
             for (var i = start_y + dir; i != now_y + dir; i += dir){
+                if (board_state[i][start_x] != 4 && board_state[i][start_x] != turn)
+                    break;
                 chosen.push([start_x, i]);
                 document.getElementById(i + '-' + start_x).style.backgroundColor = user[turn].tmp_color;
             }
@@ -57,6 +64,8 @@ function hover_(e){
             else
                 dir = -1;
             for (var i = start_x + dir; i != now_x + dir; i += dir){
+                if (board_state[start_y][i] != 4 && board_state[start_y][i] != turn)
+                    break;
                 chosen.push([i, start_y]);
                 document.getElementById(start_y + '-' + i).style.backgroundColor = user[turn].tmp_color;
             }
@@ -65,22 +74,34 @@ function hover_(e){
 }
 
 function outout(){
-    if (start_x == -1)
+    var now_x = parseInt(this.id.split('-')[1]);
+    var now_y = parseInt(this.id.split('-')[0]);
+    if (start_x == -1 && board_state[now_y][now_x] == 4){
         this.style.backgroundColor = 'white';
+    }
 }
 
 function choose_start(){
     toggle(false);
     while (chosen.length){
-        var tmp_x = chosen[chosen.length - 1][0]
+        var tmp_x = chosen[chosen.length - 1][0];
         var tmp_y = chosen[chosen.length - 1][1];
-        document.getElementById(tmp_y + '-' + tmp_x).style.backgroundColor = 'white';
+        if (board_state[tmp_y][tmp_x] == 4)
+            document.getElementById(tmp_y + '-' + tmp_x).style.backgroundColor = 'white';
+        else
+            document.getElementById(tmp_y + '-' + tmp_x).style.backgroundColor = user[board_state[tmp_y][tmp_x]].area_color;
         chosen.pop();
     }
-    this.style.backgroundColor = user[turn].tmp_color;
     start_x = parseInt(this.id.split('-')[1]);
     start_y = parseInt(this.id.split('-')[0]);
-    chosen.push([start_x, start_y]);
+    if (board_state[start_y][start_x] == 4 || board_state[start_y][start_x] == turn) {
+        this.style.backgroundColor = user[turn].tmp_color;
+        chosen.push([start_x, start_y]);
+    }
+    else{
+        start_x = -2;
+        start_y = -2;
+    }
     
 }
 
@@ -127,29 +148,17 @@ function parse(){
 }
 
 function build_board(parent){
-    // parent.onmouseenter = function(e){
-    //     console.log(e.button);
-    //     if (start_x == -2 && e.button != 0){
-    //         start_x = chosen[0][0];
-    //         start_y = chosen[0][1];
-    //     }
-    // }
-    // parent.onmouseleave = function(){
-    //     console.log(start_x, start_y);
-    //     if (start_x >= 0){
-    //         start_x = -2;
-    //         start_y = -2;
-    //     }
-    // }
     for (var i = 0; i < board_size; i++){
         var now = document.createElement('div');
         now.id = 'row ' + i;
         now.className = 'row';
         parent.appendChild(now);
+        board_char.push([]);
         board_state.push([]);
         for (var j = 0; j < board_size; j++){
             var got = random_pick(chosung);
-            board_state[board_state.length - 1].push(got);
+            board_char[i].push(got);
+            board_state[i].push(4);
             var newcell = document.createElement('div');
             newcell.id = i + '-' + j;
             newcell.className = 'cell';
@@ -168,9 +177,8 @@ function build_board(parent){
 function check_chosung(space_word){
     var now_chosung = '';
     var word = space_word.replaceAll(' ', '');
-    console.log(word);
     for (var i = 0; i < chosen.length; i++)
-        now_chosung += board_state[chosen[i][1]][chosen[i][0]];
+        now_chosung += board_char[chosen[i][1]][chosen[i][0]];
     if (word.length == now_chosung.length){
         var res1 = true, res2 = true;
         for (var i = 0; i < now_chosung.length; i++){
@@ -188,8 +196,20 @@ function got_word(){
     var word = textbox.value;
     textbox.value = '';
     var chk = check_chosung(word);
-    if (chk){
+    if (chk)
         chk |= check_word(word);
+    if (chk){
+        for (var i = chosen.length - 1; i >= 0; i--){
+            document.getElementById(chosen[i][1] + '-' + chosen[i][0]).style.backgroundColor = user[turn].area_color;
+            if (board_state[chosen[i][1]][chosen[i][0]] == 4)
+                user[turn].point++;
+            board_state[chosen[i][1]][chosen[i][0]] = turn;
+            chosen.pop();
+        }
+        turn = (turn + 1) % player_cnt;
+        toggle(false);
+        start_x = -1;
+        start_y = -1;
     }
     else{
         console.log(false);
@@ -198,5 +218,5 @@ function got_word(){
 }
 
 document.oncontextmenu = function(){
-    return true;
+    return false;
 }
