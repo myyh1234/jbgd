@@ -152,7 +152,7 @@ function build_board(parent){
     for (var i = 0; i < player_cnt; i++){
         user[i].user_object.style.backgroundColor = user[i].tmp_color;
         user[i].user_object.style.width = '350px';
-        user[i].user_object.style.height = '100px';
+        user[i].user_object.style.height = '90px';
         console.log(user[i].user_object);
         user_area.appendChild(user[i].user_object);
     }
