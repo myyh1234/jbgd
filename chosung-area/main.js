@@ -157,7 +157,7 @@ function build_board(parent){
         user_area.appendChild(user[i].user_object);
     }
     for (var i = 0; i < board_size; i++){
-        var now = document.createElement('div');
+        var now = document.createElement('div'); 
         now.id = 'row ' + i;
         now.className = 'row';
         parent.appendChild(now);
