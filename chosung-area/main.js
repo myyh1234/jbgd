@@ -8,8 +8,8 @@ var turn = 0 // 0 1 2 3
 var user = [
     {area_color: '#FF6A6A', tmp_color: '#FFA8A8', point: 0},
     {area_color: '#4D91FF', tmp_color: '#85CFFC', point: 0},
-    {area_color: '#FFCD04', tmp_color: '#FFD949', point: 0},
-    {area_color: '#75E62B', tmp_color: '#93FF5E', point: 0}
+    {area_color: '#FFCA18', tmp_color: '#F8F10C', point: 0},
+    {area_color: '#48D618', tmp_color: '#8FF558', point: 0}
 ]
 var start_x = -1, start_y = -1; // -1: 선택안됨, -2: 선택완료 
 var chosen = []; // (x y) stack
