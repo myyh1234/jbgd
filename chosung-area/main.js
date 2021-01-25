@@ -150,9 +150,16 @@ function parse(){
 function build_board(parent){
     var user_area = document.getElementById('users');
     for (var i = 0; i < player_cnt; i++){
-        user[i].user_object.style.backgroundColor = user[i].tmp_color;
-        user[i].user_object.style.width = '350px';
-        user[i].user_object.style.height = '90px';
+        if (i == 0){
+            user[i].user_object.style.backgroundColor = user[i].tmp_color;
+            user[i].user_object.className = 'turn a_user';
+        }
+        else{
+            user[i].user_object.style.backgroundColor = 'white';
+            user[i].user_object.className = 'not_turn a_user';
+        }
+        user[i].user_object.innerHTML = '<div>PLAYER' + (i + 1) + '</div><div>0</div>';
+        user[i].id = 'player' + i;
         console.log(user[i].user_object);
         user_area.appendChild(user[i].user_object);
     }
@@ -214,7 +221,12 @@ function got_word(){
             board_state[chosen[i][1]][chosen[i][0]] = turn;
             chosen.pop();
         }
+        user[turn].user_object.children[1].innerHTML = user[turn].point;
+        user[turn].user_object.className = 'not_turn a_user';
+        user[turn].user_object.style.backgroundColor = 'white';
         turn = (turn + 1) % player_cnt;
+        user[turn].user_object.className = 'turn a_user';
+        user[turn].user_object.style.backgroundColor = user[turn].tmp_color;
         toggle(false);
         start_x = -1;
         start_y = -1;
