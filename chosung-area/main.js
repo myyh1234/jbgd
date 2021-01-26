@@ -16,6 +16,7 @@ var chosen = []; // (x y) stack
 var board_char = [], board_state = []; // 0 ~ 3: selected, 4: empty
 
 var timer_handle, turn_time = 30, left = turn_time;
+var cnt_left;
 
 function same_chosung(now_chosung, char){
     var charcode = char.charCodeAt(0);
@@ -139,6 +140,7 @@ function parse(){
     var tmp = location.href.toString().split('?')[1].split('&');
     board_size = parseInt(tmp[0].split('=')[1]);
     player_cnt = parseInt(tmp[1].split('=')[1]);
+    cnt_left = board_size * board_size;
     if (board_size < 8)
         board_size = 8;
     else if (board_size > 12)
@@ -166,14 +168,21 @@ function update(){
 }
 
 function change_turn(over) {
+    // over == 타임오버 여부
     clearInterval(timer_handle);
     for (var i = chosen.length - 1; i >= 0; i--){
-        if (board_state[chosen[i][1]][chosen[i][0]] == 4 && !over) {
+        if (over) {
+            if (board_state[chosen[i][1]][chosen[i][0]] == 4)
+                document.getElementById(chosen[i][1] + '-' + chosen[i][0]).style.backgroundColor = 'white';
+            else
+                document.getElementById(chosen[i][1] + '-' + chosen[i][0]).style.backgroundColor = user[turn].area_color;
+        }
+        else{
             document.getElementById(chosen[i][1] + '-' + chosen[i][0]).style.backgroundColor = user[turn].area_color;
             user[turn].point++;
+            cnt_left--;
         }
-        else
-            document.getElementById(chosen[i][1] + '-' + chosen[i][0]).style.backgroundColor = 'white';
+        
         board_state[chosen[i][1]][chosen[i][0]] = turn;
         chosen.pop();
     }
