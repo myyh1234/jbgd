@@ -150,16 +150,20 @@ function parse(){
 function build_board(parent){
     var user_area = document.getElementById('users');
     for (var i = 0; i < player_cnt; i++){
+        var tmp = document.createElement('div');
+        user[i].id = 'player' + i;
+        tmp.id = 'inner ' + i;
+        tmp.style.backgroundColor = user[i].tmp_color;
         if (i == 0){
-            user[i].user_object.style.backgroundColor = user[i].tmp_color;
+            tmp.className = 'innerdiv turn';
             user[i].user_object.className = 'turn a_user';
         }
         else{
-            user[i].user_object.style.backgroundColor = 'white';
+            tmp.className = 'innerdiv not_turn';
             user[i].user_object.className = 'not_turn a_user';
         }
-        user[i].user_object.innerHTML = '<div>PLAYER' + (i + 1) + '</div><div>0</div>';
-        user[i].id = 'player' + i;
+        user[i].user_object.appendChild(tmp);
+        user[i].user_object.innerHTML += '<div class="playername"style="padding: 15px 0 0 0;">PLAYER' + (i + 1) + '</div><div class="point" id="point ' + i + '">0</div>';
         console.log(user[i].user_object);
         user_area.appendChild(user[i].user_object);
     }
@@ -221,12 +225,12 @@ function got_word(){
             board_state[chosen[i][1]][chosen[i][0]] = turn;
             chosen.pop();
         }
-        user[turn].user_object.children[1].innerHTML = user[turn].point;
+        document.getElementById('point ' + turn).innerHTML = user[turn].point;
+        document.getElementById('inner ' + turn).className = 'innerdiv not_turn';
         user[turn].user_object.className = 'not_turn a_user';
-        user[turn].user_object.style.backgroundColor = 'white';
         turn = (turn + 1) % player_cnt;
+        document.getElementById('inner ' + turn).className = 'innerdiv turn';
         user[turn].user_object.className = 'turn a_user';
-        user[turn].user_object.style.backgroundColor = user[turn].tmp_color;
         toggle(false);
         start_x = -1;
         start_y = -1;

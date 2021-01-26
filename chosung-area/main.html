@@ -108,21 +108,33 @@
             height: 450px;
             justify-content: space-around;
         }
-        #users .a_user{
+        .a_user{
             width: 350px;
             height: 85px;
-            padding: 15px;
+            /* padding: 15px; */
             box-sizing: border-box;
+            position: relative;
         }
-        #users .turn{
+        .a_user.turn{
             color: black;
             border: 1px solid black;
             box-shadow: 3px 3px 2px black;
         }
-        #users .not_turn{
+        .a_user.not_turn{
             color: gray;
-            background-color: white;
             border: 1px dotted gray;
+        }
+        .innerdiv{
+            position: absolute;
+            height: 84px;
+            z-index: -1;
+            transition: width 0.35s;
+        }
+        .innerdiv.turn{
+            width: 350px;
+        }
+        .innerdiv.not_turn{
+            width: 50px;
         }
     </style>
 </head>
