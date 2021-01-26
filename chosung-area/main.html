@@ -152,6 +152,7 @@
 </head>
 <body onload="parse(); build_board(document.getElementById('board'));">
     <h1>초성 땅따먹기</h1>
+    <a href="help.html" target="_blank" title="도움말"><img src="help_icon.png" alt="도움말" id='help_icon'></a>
     <div id='word_form' class='disable'>
         <input type="text" name="word" id="textbox" onkeypress="if (event.keyCode == 13) got_word()" disabled placeholder="단어를 입력하세요">
         <button id='word_submit' onclick="got_word()">입력</button>

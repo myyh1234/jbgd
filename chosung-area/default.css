@@ -3,6 +3,20 @@ body {
     text-align: center;
 }
 
+#help_icon{
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    width: 60px;
+    transition: width 0.5s, top 0.5s, right 0.5s;
+}
+
+#help_icon:hover{
+    width: 70px;
+    right: 15px;
+    top: 15px;
+}
+
 #logo {
     position: fixed;
     bottom: 10px;

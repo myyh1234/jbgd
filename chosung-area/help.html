@@ -22,7 +22,7 @@
         img{
             margin: 20px;
         }
-        #help{
+        #rule{
             width: 60vw;
         }
         .play{
@@ -31,21 +31,40 @@
         .jaum{
             font-size: 20px;
         }
+        button {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 20px;
+            font-size: 25px;
+            font-family: "Black Han Sans";
+            background-color: gold;
+            outline: 0;
+            border-style: none;
+            transition: box-shadow 0.25s;
+        }
+        button:hover {
+            box-shadow: 7px 7px 0px black;
+        }
+        button:active {
+            background-color: goldenrod;
+        }
     </style>
 </head>
-<body>
+<body> 
+    <button onclick='location.href="settings.html"'>첫 화면으로</button>
     <h1>도움말</h1>
-    <img src="help.png" alt="룰 설명 이미지" id='help'>
+    <img src="help.png" alt="룰 설명 이미지" id='rule'>
     <br>
     네줄요약)
     <br>
-    번갈아가며 드래그하여 일렬로 자음을 선택한 뒤, 자음에 맞는 단어를 입력하면 해당 칸들을 차지할 수 있다.
+    번갈아가며 드래그하여 일렬로 자음을 두 개 이상 선택한 뒤, 자음에 맞는 단어를 입력하면 해당 칸들을 차지할 수 있다.
     <br>
     칸의 수만큼 점수를 얻으며, 선택할 단어가 없으면 스킵할 수 있다.
     <br>
     30초 안에 행동하지 않으면 점수가 1점 깎이고 차례가 넘어간다. 
     <br>
-    모든 칸이 채워지거나 더 이상 선택할 단어가 없으면( = 모든 사람이 연속하여 SKIP을 누르면) 게임이 끝난다. 
+    모든 칸이 채워지거나 더 이상 선택할 단어가 없으면( = 모든 사람이 연속하여 SKIP을 누르면) 게임이 끝난다.
     <br>
     <br>
     <br>
