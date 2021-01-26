@@ -15,6 +15,8 @@ var start_x = -1, start_y = -1; // -1: 선택안됨, -2: 선택완료
 var chosen = []; // (x y) stack
 var board_char = [], board_state = []; // 0 ~ 3: selected, 4: empty
 
+var timer_handle, turn_time = 30, left = turn_time;
+
 function same_chosung(now_chosung, char){
     var charcode = char.charCodeAt(0);
     if (charcode < hangul_start || hangul_end < charcode)
@@ -147,6 +149,50 @@ function parse(){
         player_cnt = 4;
 }
 
+function update(){
+    left--;
+    var now_tar = document.getElementById('inner ' + turn);
+    if (left >= 10)
+        now_tar.innerText = left;
+    else
+        now_tar.innerText = '0' + left;
+    if (left < 10 && left % 2 == 1)
+        now_tar.style.color = 'red';
+    else
+        now_tar.style.color = 'black';
+
+    if (left == 0)
+        change_turn(true);
+}
+
+function change_turn(over) {
+    clearInterval(timer_handle);
+    for (var i = chosen.length - 1; i >= 0; i--){
+        if (board_state[chosen[i][1]][chosen[i][0]] == 4 && !over) {
+            document.getElementById(chosen[i][1] + '-' + chosen[i][0]).style.backgroundColor = user[turn].area_color;
+            user[turn].point++;
+        }
+        else
+            document.getElementById(chosen[i][1] + '-' + chosen[i][0]).style.backgroundColor = 'white';
+        board_state[chosen[i][1]][chosen[i][0]] = turn;
+        chosen.pop();
+    }
+    if (over)
+        user[turn].point--;
+    document.getElementById('point ' + turn).innerHTML = user[turn].point + '점';
+    document.getElementById('inner ' + turn).className = 'innerdiv not_turn';
+    user[turn].user_object.className = 'not_turn a_user';
+    document.getElementById('inner ' + turn).style.color = 'gray';
+    turn = (turn + 1) % player_cnt;
+    document.getElementById('inner ' + turn).className = 'innerdiv turn';
+    user[turn].user_object.className = 'turn a_user';
+    toggle(false);
+    start_x = -1;
+    start_y = -1;
+    left = turn_time;
+    timer_handle = setInterval(update, 1000);
+}
+
 function build_board(parent){
     var user_area = document.getElementById('users');
     for (var i = 0; i < player_cnt; i++){
@@ -154,6 +200,7 @@ function build_board(parent){
         user[i].id = 'player' + i;
         tmp.id = 'inner ' + i;
         tmp.style.backgroundColor = user[i].tmp_color;
+        tmp.innerHTML = '<div class="sec">' + turn_time + '</div>';
         if (i == 0){
             tmp.className = 'innerdiv turn';
             user[i].user_object.className = 'turn a_user';
@@ -163,8 +210,7 @@ function build_board(parent){
             user[i].user_object.className = 'not_turn a_user';
         }
         user[i].user_object.appendChild(tmp);
-        user[i].user_object.innerHTML += '<div class="playername"style="padding: 15px 0 0 0;">PLAYER' + (i + 1) + '</div><div class="point" id="point ' + i + '">0</div>';
-        console.log(user[i].user_object);
+        user[i].user_object.innerHTML += '<div class="playername" style="padding: 15px 0 0 0;">PLAYER ' + (i + 1) + '</div><div class="point" id="point ' + i + '">0칸</div>';
         user_area.appendChild(user[i].user_object);
     }
     for (var i = 0; i < board_size; i++){
@@ -191,6 +237,9 @@ function build_board(parent){
             now.appendChild(newcell);
         }
     }
+    var now_time = new Date();
+    left = turn_time;
+    timer_handle = setInterval(update, 1000);
 }
 
 function check_chosung(space_word){
@@ -217,24 +266,8 @@ function got_word(){
     var chk = check_chosung(word);
     if (chk)
         chk |= check_word(word);
-    if (chk){
-        for (var i = chosen.length - 1; i >= 0; i--){
-            document.getElementById(chosen[i][1] + '-' + chosen[i][0]).style.backgroundColor = user[turn].area_color;
-            if (board_state[chosen[i][1]][chosen[i][0]] == 4)
-                user[turn].point++;
-            board_state[chosen[i][1]][chosen[i][0]] = turn;
-            chosen.pop();
-        }
-        document.getElementById('point ' + turn).innerHTML = user[turn].point;
-        document.getElementById('inner ' + turn).className = 'innerdiv not_turn';
-        user[turn].user_object.className = 'not_turn a_user';
-        turn = (turn + 1) % player_cnt;
-        document.getElementById('inner ' + turn).className = 'innerdiv turn';
-        user[turn].user_object.className = 'turn a_user';
-        toggle(false);
-        start_x = -1;
-        start_y = -1;
-    }
+    if (chk)
+        change_turn(false);
     else{
         console.log(false);
         textbox.focus();

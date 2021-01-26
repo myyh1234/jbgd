@@ -107,6 +107,7 @@
             box-sizing: border-box;
             height: 450px;
             justify-content: space-around;
+            user-select: none;
         }
         .a_user{
             width: 350px;
@@ -126,15 +127,29 @@
         }
         .innerdiv{
             position: absolute;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            padding: 5px;
+            box-sizing: border-box;
             height: 84px;
             z-index: -1;
+            text-align: start;
             transition: width 0.35s;
+            font-family: 'Gamja Flower', cursive;
+            font-size: 40px;
         }
         .innerdiv.turn{
             width: 350px;
+            
         }
         .innerdiv.not_turn{
             width: 50px;
+            color: gray;
+        }
+        .playername, .point{
+            font-size: 20px;
+            font-family: "Black Han Sans";
         }
     </style>
 </head>
