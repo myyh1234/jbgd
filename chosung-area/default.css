@@ -18,7 +18,7 @@ body {
 }
 
 h1 {
-    font-family: 'sd-misaeng', 'Gamja Flower', cursive;
+    font-family: 'sd-misaeng', 'Gamja Flower', 'Malgun Gothic';
     font-size: 70px;
     transition: text-shadow 0.25s;
     user-select: none;
