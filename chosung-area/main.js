@@ -141,8 +141,8 @@ function parse(){
         board_size = 8;
     else if (board_size > 12)
         board_size = 12;
-    if (player_cnt < 2)
-        player_cnt = 2;
+    if (player_cnt < 1)
+        player_cnt = 1;
     else if (player_cnt > 4)
         player_cnt = 4;
 }
