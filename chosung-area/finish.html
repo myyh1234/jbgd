@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>초성 땅따먹기</title>
+    <link rel="shortcut icon" href="../jbgd-logo-white-small.png" type="image/x-icon">
+    <link rel="icon" href="../jbgd-logo-white-small.png" type="image/x-icon">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Gamja+Flower&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Black+Han+Sans&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../font/sd-misaeng.css" type="text/css" charset="utf-8">
+    <link rel="stylesheet" href="default.css">
+    <script src="fin.js"></script>
+    <style>
+        h1{
+            margin-block-start: 0.3em;
+            margin-block-end: 0.3em;
+        }
+        #container{
+            display: inline-flex;
+            flex-direction: column;
+            width: 30vw;
+        }
+        .user_lank{
+            font-family: 'Gamja Flower', cursive;
+            font-size: 30px;
+            background-color: white;
+            float: left;
+        }
+        .info_txt{
+            font-family: 'sd-misaeng', 'Gamja Flower', cursive, 'Black Han Sans';
+            font-size: 25px;
+        }
+        button {
+            margin: 3vh;
+            padding: 20px;
+            font-size: 25px;
+            font-family: "Black Han Sans";
+            background-color: gold;
+            outline: 0;
+            border-style: none;
+            transition: box-shadow 0.25s;
+        }
+        button:hover {
+            box-shadow: 7px 7px 0px black;
+        }
+        button:active {
+            background-color: goldenrod;
+        }
+    </style>
+</head>
+<body onload="get_result();">
+    <h1>결과</h1>
+    <div id='container'>
+
+    </div>
+    <br>
+    <button onclick="location.href = 'settings.html'">RESTART</button>
+</body>
+</html>

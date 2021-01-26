@@ -16,7 +16,7 @@ var chosen = []; // (x y) stack
 var board_char = [], board_state = []; // 0 ~ 3: selected, 4: empty
 
 var timer_handle, turn_time = 30, left = turn_time;
-var cnt_left;
+var cnt_left, skip_cnt = 0;
 
 function same_chosung(now_chosung, char){
     var charcode = char.charCodeAt(0);
@@ -124,15 +124,11 @@ function toggle(on){
     if (on){
         d.className = 'enable';
         d.children[0].disabled = false;
-        d.children[0].placeholder = '단어를 입력하세요'
         d.children[0].focus();
-        d.children[1].innerHTML = '입력';
     }
     else{
         d.className = 'disable';
         d.children[0].disabled = true;
-        d.children[0].placeholder = '';
-        d.children[1].innerHTML = '';
     }
 }
 
@@ -163,34 +159,44 @@ function update(){
     else
         now_tar.style.color = 'black';
 
-    if (left == 0)
-        change_turn(true);
+    if (left == 0){
+        change_turn(0);
+    }
+}
+
+function finish(){
+    var url = 'finish.html?';
+    for (var i = 0; i < player_cnt; i++){
+        url += 'p' + i + '=' + user[i].point;
+        if (i + 1 != player_cnt)
+            url += '&';
+    }
+    location.href = url;
 }
 
 function change_turn(over) {
-    // over == 타임오버 여부
+    // 0 : 타임오버 1 : 입력함 2 : skip
     clearInterval(timer_handle);
     for (var i = chosen.length - 1; i >= 0; i--){
-        if (over) {
-            if (board_state[chosen[i][1]][chosen[i][0]] == 4)
-                document.getElementById(chosen[i][1] + '-' + chosen[i][0]).style.backgroundColor = 'white';
-            else
-                document.getElementById(chosen[i][1] + '-' + chosen[i][0]).style.backgroundColor = user[turn].area_color;
-        }
-        else{
+        if (over == 1) {
             document.getElementById(chosen[i][1] + '-' + chosen[i][0]).style.backgroundColor = user[turn].area_color;
             if (board_state[chosen[i][1]][chosen[i][0]] == 4) {
                 user[turn].point++;
                 cnt_left--;
-                
+                board_state[chosen[i][1]][chosen[i][0]] = turn;
             }
         }
-        
-        board_state[chosen[i][1]][chosen[i][0]] = turn;
+        else if (board_state[chosen[i][1]][chosen[i][0]] == 4)
+            document.getElementById(chosen[i][1] + '-' + chosen[i][0]).style.backgroundColor = 'white'; 
+        else
+            document.getElementById(chosen[i][1] + '-' + chosen[i][0]).style.backgroundColor = user[turn].area_color;
+
         chosen.pop();
     }
-    if (over)
+    
+    if (over == 0)
         user[turn].point--;
+    
     document.getElementById('point ' + turn).innerHTML = user[turn].point + '점';
     document.getElementById('inner ' + turn).className = 'innerdiv not_turn';
     user[turn].user_object.className = 'not_turn a_user';
@@ -202,6 +208,23 @@ function change_turn(over) {
     start_x = -1;
     start_y = -1;
     left = turn_time;
+        
+    if (over == 1)
+        skip_cnt = 0;
+    else {
+        skip_cnt++;
+        if (skip_cnt == player_cnt) {
+            var go = confirm('모든 유저가 단어를 선택하지 않았습니다. 게임을 종료할까요?');
+            if (go)
+                finish();
+            else
+                skip_cnt = 0;
+        }
+    }
+
+    if (cnt_left == 0)
+        finish();
+    
     timer_handle = setInterval(update, 1000);
 }
 
@@ -279,7 +302,7 @@ function got_word(){
     if (chk)
         chk |= check_word(word);
     if (chk)
-        change_turn(false);
+        change_turn(1);
     else{
         console.log(false);
         textbox.focus();

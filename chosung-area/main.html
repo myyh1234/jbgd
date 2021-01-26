@@ -61,23 +61,13 @@
             height: 30px;
             outline: 0;
             margin: 2px;
-        }
-        #textbox:enabled{
             border: 1px solid black;
             color: black;
         }
-        #textbox:enabled::placeholder{
-            color: default;
-        }
         #textbox:disabled{
-            background-color: white;
-            color: white;
-            border: none;
+            display: none;
         }
-        #textbox:disabled::placeholder{
-            color: white;
-        }
-        #word_submit{
+        button{
             height: 30px;
             width: 42px;
             padding: 2px;
@@ -85,16 +75,22 @@
             outline: 0;
             margin: 2px;
         }
+        #skip_turn{
+            background-color: #7DDB93 ;
+            transition: box-shadow 0.25s;
+        }
+        #skip_turn:active{
+            background-color: #30AD4D;
+        }
         .disable #word_submit{
-            background-color: white;
-            color: white;
+            display: none;
         }
         .enable #word_submit{
             background-color: gold;
             color: black;
             transition: box-shadow 0.25s;
         }
-        .enable #word_submit:hover{
+        .enable #word_submit:hover, #skip_turn:hover{
             box-shadow: 3px 3px 0px black;
         }
         .enable #word_submit:active{
@@ -146,6 +142,7 @@
         .innerdiv.not_turn{
             width: 50px;
             color: gray;
+            color: 
         }
         .playername, .point{
             font-size: 20px;
@@ -156,8 +153,9 @@
 <body onload="parse(); build_board(document.getElementById('board'));">
     <h1>초성 땅따먹기</h1>
     <div id='word_form' class='disable'>
-        <input type="text" name="word" id="textbox" onkeypress="if (event.keyCode == 13) got_word()" disabled>
-        <button id='word_submit' onclick="got_word()"></button>
+        <input type="text" name="word" id="textbox" onkeypress="if (event.keyCode == 13) got_word()" disabled placeholder="단어를 입력하세요">
+        <button id='word_submit' onclick="got_word()">입력</button>
+        <button id='skip_turn' onclick='change_turn(2)'>SKIP</button>
     </div>
     
     <div id='container'>
