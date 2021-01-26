@@ -179,8 +179,11 @@ function change_turn(over) {
         }
         else{
             document.getElementById(chosen[i][1] + '-' + chosen[i][0]).style.backgroundColor = user[turn].area_color;
-            user[turn].point++;
-            cnt_left--;
+            if (board_state[chosen[i][1]][chosen[i][0]] == 4) {
+                user[turn].point++;
+                cnt_left--;
+                
+            }
         }
         
         board_state[chosen[i][1]][chosen[i][0]] = turn;
