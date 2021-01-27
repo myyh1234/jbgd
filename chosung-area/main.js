@@ -198,12 +198,19 @@ function change_turn(over) {
         user[turn].point--;
     
     document.getElementById('point ' + turn).innerHTML = user[turn].point + '점';
-    document.getElementById('inner ' + turn).className = 'innerdiv not_turn';
+    var bef_inner = document.getElementById('inner ' + turn);
+    bef_inner.className = 'innerdiv not_turn';
     user[turn].user_object.className = 'not_turn a_user';
-    document.getElementById('inner ' + turn).style.color = 'gray';
+    bef_inner.style.color = 'gray';
     turn = (turn + 1) % player_cnt;
-    document.getElementById('inner ' + turn).className = 'innerdiv turn';
+    var new_inner = document.getElementById('inner ' + turn);
+    new_inner.className = 'innerdiv turn';
     user[turn].user_object.className = 'turn a_user';
+    if (turn_time >= 10)
+        new_inner.innerHTML = turn_time;
+    else
+        new_inner.innerHTML = '0' + turn_time;
+    new_inner.color = 'black';
     toggle(false);
     start_x = -1;
     start_y = -1;
@@ -235,7 +242,10 @@ function build_board(parent){
         user[i].id = 'player' + i;
         tmp.id = 'inner ' + i;
         tmp.style.backgroundColor = user[i].tmp_color;
-        tmp.innerHTML = '<div class="sec">' + turn_time + '</div>';
+        if (turn_time >= 10)
+            tmp.innerHTML = '<div class="sec">' + turn_time + '</div>';
+        else
+            tmp.innerHTML = '<div class="sec">0' + turn_time + '</div>';
         if (i == 0){
             tmp.className = 'innerdiv turn';
             user[i].user_object.className = 'turn a_user';
