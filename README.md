@@ -4,4 +4,4 @@
 [베도 링크](https://comic.naver.com/bestChallenge/list.nhn?titleId=734597)
 
 구현된 게임
-+ 아직 없음
++ [초성 땅따먹기](https://myyh1234.github.io/jbgd/chosung-area/settings.html)
