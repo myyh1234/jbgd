@@ -258,6 +258,9 @@ function build_board(parent){
         user[i].user_object.innerHTML += '<div class="playername" style="padding: 15px 0 0 0;">PLAYER ' + (i + 1) + '</div><div class="point" id="point ' + i + '">0칸</div>';
         user_area.appendChild(user[i].user_object);
     }
+    var size_cell = Math.floor(450 / board_size);
+    parent.style.width = (size_cell * board_size) + 'px';
+    parent.style.height = (size_cell * board_size) + 'px';
     for (var i = 0; i < board_size; i++){
         var now = document.createElement('div'); 
         now.id = 'row ' + i;
@@ -272,8 +275,8 @@ function build_board(parent){
             var newcell = document.createElement('div');
             newcell.id = i + '-' + j;
             newcell.className = 'cell';
-            newcell.style.width = Math.floor(450 / board_size).toString() + 'px'; 
-            newcell.style.height = Math.floor(450 / board_size).toString() + 'px';
+            newcell.style.width = size_cell.toString() + 'px'; 
+            newcell.style.height = size_cell.toString() + 'px';
             newcell.innerHTML = '<span id="' + i + ' ' + j + '">' + got + '</span>';
             newcell.onmouseenter = hover_;
             newcell.onmouseleave = outout;
